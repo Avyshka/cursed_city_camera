@@ -5,11 +5,11 @@ namespace CursedCity.CameraController
     public class CameraController : MonoBehaviour
     {
         #region Fields
-        
+
         private const string HORIZONTAL_AXIS = "Horizontal";
         private const string VERTICAL_AXIS = "Vertical";
         private const string ZOOMING_AXIS = "Mouse ScrollWheel";
-        
+
         [SerializeField] private float _cameraAngle;
 
         [Header("Moving")] [SerializeField] private float _moveSpeed;
@@ -22,19 +22,22 @@ namespace CursedCity.CameraController
         [SerializeField] private float _zoomDistanceMax;
 
         private Camera _camera;
-        
+
         #endregion
 
         #region UnityMethods
-        
+
         private void Awake()
         {
             _camera = Camera.main;
+            _camera.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            _camera.transform.position = Vector3.zero;
         }
 
         private void Start()
         {
             _camera.transform.rotation = Quaternion.Euler(_cameraAngle, 0f, 0f);
+            _camera.transform.position = _camera.transform.forward * -_zoomDistanceMax;
         }
 
         private void Update()
@@ -43,12 +46,12 @@ namespace CursedCity.CameraController
             LimitPosition();
             Zoom();
         }
-        
+
         #endregion
 
-        
+
         #region Methods
-        
+
         private void Move()
         {
             var inputX = GetHorizontalAxisValue();
@@ -95,13 +98,15 @@ namespace CursedCity.CameraController
                 Mathf.Clamp(transform.position.z, -_limitY, _limitY)
             );
         }
-        
+
         private void Zoom()
         {
             var scrollInput = Input.GetAxis(ZOOMING_AXIS);
-            var dist = Vector3.Distance(transform.position, _camera.transform.position);
 
-            if (dist < _zoomDistanceMin && scrollInput > 0.0f || dist > _zoomDistanceMax && scrollInput < 0.0f)
+            if (
+                _camera.transform.position.y <= _zoomDistanceMin && scrollInput > 0.0f ||
+                _camera.transform.position.y >= _zoomDistanceMax && scrollInput < 0.0f
+            )
             {
                 return;
             }
