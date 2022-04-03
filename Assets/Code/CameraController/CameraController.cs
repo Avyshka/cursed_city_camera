@@ -25,6 +25,7 @@ namespace CursedCity.CameraController
 
         #endregion
 
+        
         #region UnityMethods
 
         private void Awake()
