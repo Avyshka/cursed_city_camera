@@ -9,12 +9,13 @@ namespace CursedCity.CameraController
         private const string HORIZONTAL_AXIS = "Horizontal";
         private const string VERTICAL_AXIS = "Vertical";
         private const string ZOOMING_AXIS = "Mouse ScrollWheel";
+        private const float PAN_ACCELERATE_DAMPING = 0.93f;
 
         public float cameraAngle;
 
         public float moveSpeed;
         public float panBorderThickness;
-        
+
         public bool isBorderLimits;
         public float limitLeft;
         public float limitRight;
@@ -26,6 +27,8 @@ namespace CursedCity.CameraController
         public float zoomDistanceMax;
 
         private Camera _camera;
+        private float panAccelerateX;
+        private float panAccelerateZ;
 
         #endregion
 
@@ -67,32 +70,44 @@ namespace CursedCity.CameraController
 
         private float GetHorizontalAxisValue()
         {
+            panAccelerateX *= PAN_ACCELERATE_DAMPING;
+            if (Input.GetAxis(HORIZONTAL_AXIS) > 0.0f || Input.GetAxis(HORIZONTAL_AXIS) < 0.0f)
+            {
+                panAccelerateX = Input.GetAxis(HORIZONTAL_AXIS);
+            }
+            
             if (Input.mousePosition.x >= Screen.width - panBorderThickness)
             {
-                return 1;
+                panAccelerateX = 1;
             }
 
             if (Input.mousePosition.x <= panBorderThickness)
             {
-                return -1;
+                panAccelerateX = -1;
             }
 
-            return Input.GetAxis(HORIZONTAL_AXIS);
+            return panAccelerateX;
         }
 
         private float GetVerticalAxisValue()
         {
+            panAccelerateZ *= PAN_ACCELERATE_DAMPING;
+            if (Input.GetAxis(VERTICAL_AXIS) > 0.0f || Input.GetAxis(VERTICAL_AXIS) < 0.0f)
+            {
+                panAccelerateZ = Input.GetAxis(VERTICAL_AXIS);
+            }
+            
             if (Input.mousePosition.y >= Screen.height - panBorderThickness)
             {
-                return 1;
+                panAccelerateZ = 1;
             }
 
             if (Input.mousePosition.y <= panBorderThickness)
             {
-                return -1;
+                panAccelerateZ = -1;
             }
 
-            return Input.GetAxis(VERTICAL_AXIS);
+            return panAccelerateZ;
         }
 
         private void LimitPosition()
@@ -101,6 +116,7 @@ namespace CursedCity.CameraController
             {
                 return;
             }
+
             transform.position = new Vector3(
                 Mathf.Clamp(transform.position.x, limitLeft, limitRight),
                 transform.position.y,
@@ -122,7 +138,7 @@ namespace CursedCity.CameraController
 
             _camera.transform.position += _camera.transform.forward * scrollInput * zoomSpeed;
         }
-        
+
         void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.magenta;
