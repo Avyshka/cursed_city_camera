@@ -10,22 +10,26 @@ namespace CursedCity.CameraController
         private const string VERTICAL_AXIS = "Vertical";
         private const string ZOOMING_AXIS = "Mouse ScrollWheel";
 
-        [SerializeField] private float _cameraAngle;
+        public float cameraAngle;
 
-        [Header("Moving")] [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _limitX;
-        [SerializeField] private float _limitY;
-        [SerializeField] private float _panBorderThickness;
+        public float moveSpeed;
+        public float panBorderThickness;
+        
+        public bool isBorderLimits;
+        public float limitLeft;
+        public float limitRight;
+        public float limitTop;
+        public float limitBottom;
 
-        [Header("Zooming")] [SerializeField] private float _zoomSpeed;
-        [SerializeField] private float _zoomDistanceMin;
-        [SerializeField] private float _zoomDistanceMax;
+        public float zoomSpeed;
+        public float zoomDistanceMin;
+        public float zoomDistanceMax;
 
         private Camera _camera;
 
         #endregion
 
-        
+
         #region UnityMethods
 
         private void Awake()
@@ -37,8 +41,8 @@ namespace CursedCity.CameraController
 
         private void Start()
         {
-            _camera.transform.rotation = Quaternion.Euler(_cameraAngle, 0f, 0f);
-            _camera.transform.position = _camera.transform.forward * -_zoomDistanceMax;
+            _camera.transform.rotation = Quaternion.Euler(cameraAngle, 0f, 0f);
+            _camera.transform.position = transform.position + _camera.transform.forward * -zoomDistanceMax;
         }
 
         private void Update()
@@ -58,17 +62,17 @@ namespace CursedCity.CameraController
             var inputX = GetHorizontalAxisValue();
             var inputZ = GetVerticalAxisValue();
             var direction = transform.forward * inputZ + transform.right * inputX;
-            transform.position += direction * _moveSpeed * Time.deltaTime;
+            transform.position += direction * moveSpeed * Time.deltaTime;
         }
 
         private float GetHorizontalAxisValue()
         {
-            if (Input.mousePosition.x >= Screen.width - _panBorderThickness)
+            if (Input.mousePosition.x >= Screen.width - panBorderThickness)
             {
                 return 1;
             }
 
-            if (Input.mousePosition.x <= _panBorderThickness)
+            if (Input.mousePosition.x <= panBorderThickness)
             {
                 return -1;
             }
@@ -78,12 +82,12 @@ namespace CursedCity.CameraController
 
         private float GetVerticalAxisValue()
         {
-            if (Input.mousePosition.y >= Screen.height - _panBorderThickness)
+            if (Input.mousePosition.y >= Screen.height - panBorderThickness)
             {
                 return 1;
             }
 
-            if (Input.mousePosition.y <= _panBorderThickness)
+            if (Input.mousePosition.y <= panBorderThickness)
             {
                 return -1;
             }
@@ -93,10 +97,14 @@ namespace CursedCity.CameraController
 
         private void LimitPosition()
         {
+            if (!isBorderLimits)
+            {
+                return;
+            }
             transform.position = new Vector3(
-                Mathf.Clamp(transform.position.x, -_limitX, _limitX),
+                Mathf.Clamp(transform.position.x, limitLeft, limitRight),
                 transform.position.y,
-                Mathf.Clamp(transform.position.z, -_limitY, _limitY)
+                Mathf.Clamp(transform.position.z, limitBottom, limitTop)
             );
         }
 
@@ -105,14 +113,20 @@ namespace CursedCity.CameraController
             var scrollInput = Input.GetAxis(ZOOMING_AXIS);
 
             if (
-                _camera.transform.position.y <= _zoomDistanceMin && scrollInput > 0.0f ||
-                _camera.transform.position.y >= _zoomDistanceMax && scrollInput < 0.0f
+                _camera.transform.position.y <= zoomDistanceMin && scrollInput > 0.0f ||
+                _camera.transform.position.y >= zoomDistanceMax && scrollInput < 0.0f
             )
             {
                 return;
             }
 
-            _camera.transform.position += _camera.transform.forward * scrollInput * _zoomSpeed;
+            _camera.transform.position += _camera.transform.forward * scrollInput * zoomSpeed;
+        }
+        
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawCube(transform.position, Vector3.one);
         }
 
         #endregion
