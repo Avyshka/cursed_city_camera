@@ -19,14 +19,13 @@ namespace CursedCity.Spelling
         public float TotalValue => _totalValue;
         public float CurrentValue => _currentValue;
         public float Capacity => CurrentValue / TotalValue;
+        public event Action<float, float, float> OnManaChanged;
 
         #endregion
         
         
         #region Methods
         
-        public event Action<float, float, float> OnManaChanged;
-
         public void Add(float value)
         {
             _currentValue += value;
