@@ -42,6 +42,10 @@ namespace CursedCity.Spelling
 
         private void Update()
         {
+            if (!_activated)
+            {
+                return;
+            }
             transform.position = Input.mousePosition;
             if (Input.GetMouseButtonDown(MOUSE_BUTTON_LEFT))
             {
