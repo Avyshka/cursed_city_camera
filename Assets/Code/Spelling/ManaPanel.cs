@@ -27,13 +27,17 @@ namespace CursedCity.Spelling
          */
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                _mana.Remove(100);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 _mana.Add(100);
             }
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                _mana.Remove(150);
+                _mana.Refill();
             }
         }
 

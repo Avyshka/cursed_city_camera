@@ -12,6 +12,8 @@ namespace CursedCity.Spelling
         [SerializeField] private SpellType _type;
         [SerializeField] private Sprite _icon;
         [SerializeField] private float _cost;
+        [SerializeField] private GameObject _ruin;
+        [SerializeField] private GameObject _entity;
 
         #endregion
 
@@ -22,6 +24,8 @@ namespace CursedCity.Spelling
         public SpellType Type => _type;
         public Sprite Icon => _icon;
         public float Cost => _cost;
+        public GameObject Ruin => _ruin;
+        public GameObject Entity => _entity;
 
         #endregion
     }

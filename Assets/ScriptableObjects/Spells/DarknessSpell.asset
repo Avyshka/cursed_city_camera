@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _title: Eclipse
   _type: 3
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 2cb2eca8fe0fbe34191873ce1af139e1, type: 3}
   _cost: 90
+  _ruin: {fileID: 0}
+  _entity: {fileID: 5002824711628808356, guid: 100ca708e3d0ed640bf68f8d769f9a32, type: 3}

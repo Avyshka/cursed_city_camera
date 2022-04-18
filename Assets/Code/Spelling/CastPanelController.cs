@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace CursedCity.Spelling
+﻿namespace CursedCity.Spelling
 {
     public class CastPanelController
     {
@@ -20,7 +18,6 @@ namespace CursedCity.Spelling
             _view = view;
 
             InitItems();
-            _view.SelectSpellCallback += SelectSpell;
         }
 
         #endregion
@@ -35,11 +32,6 @@ namespace CursedCity.Spelling
             {
                 _view.AddSpellItem(spell);
             }
-        }
-
-        private void SelectSpell(Spell spell)
-        {
-            Debug.Log($"Spell [{spell.Title}] selected");
         }
 
         #endregion

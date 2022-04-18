@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace CursedCity.Spelling
@@ -8,12 +7,11 @@ namespace CursedCity.Spelling
     {
         #region Fields
 
+        [SerializeField] private SpellCaster _caster;
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private Transform _spawnTransform;
 
         private readonly List<SpellItem> _items = new List<SpellItem>();
-        
-        public event Action<Spell> SelectSpellCallback;
 
         #endregion
 
@@ -28,7 +26,7 @@ namespace CursedCity.Spelling
             spellItem.SelectSpell += SelectSpell;
             _items.Add(spellItem);
         }
-        
+
         public void RemoveAllItems()
         {
             foreach (var spellItem in _items)
@@ -38,10 +36,10 @@ namespace CursedCity.Spelling
                 Destroy(spellItem.gameObject);
             }
         }
-        
+
         private void SelectSpell(Spell spell)
         {
-            SelectSpellCallback?.Invoke(spell);
+            _caster.Activate(spell);
         }
 
         #endregion

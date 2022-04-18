@@ -42,8 +42,17 @@ namespace CursedCity.Spelling
             if (_currentValue <= 0)
             {
                 _currentValue = 0;
-                Debug.LogError("Mana is empty!");
+                Debug.LogError("Mana is empty! Game Over!");
             }
+            OnManaChanged?.Invoke(CurrentValue, TotalValue, Capacity);
+        }
+        
+        /**
+         * todo: Only for tests. Please remove
+         */
+        public void Refill()
+        {
+            _currentValue = _totalValue;
             OnManaChanged?.Invoke(CurrentValue, TotalValue, Capacity);
         }
         
