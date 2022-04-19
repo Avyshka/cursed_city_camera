@@ -16,5 +16,8 @@ MonoBehaviour:
   _type: 1
   _icon: {fileID: 21300000, guid: 2cb2eca8fe0fbe34191873ce1af139e1, type: 3}
   _cost: 75
-  _ruin: {fileID: 0}
-  _entity: {fileID: 5002824711628808356, guid: 100ca708e3d0ed640bf68f8d769f9a32, type: 3}
+  _ruins:
+  - {fileID: 6079554802250031863, guid: 1eace673e8ddedc468f1feba5820eeec, type: 3}
+  - {fileID: 1343807220552316895, guid: 9e3677951d72c2a4fb3afe6f0146c5ee, type: 3}
+  - {fileID: 778036995604774709, guid: bf9424c0e02f8b6499d661fe1b9f7086, type: 3}
+  _entity: {fileID: 1944723801478554002, guid: ebecfe9395582ac439edb70928e4f9d2, type: 3}

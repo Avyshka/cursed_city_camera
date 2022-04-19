@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using CursedCity.ManaPanel;
+using CursedCity.Ruins;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,7 +21,7 @@ namespace CursedCity.Spelling
         [SerializeField] private TMP_Text _cost;
         [SerializeField] private GameObject _body;
         
-        [SerializeField] private Mana _mana;
+        [SerializeField] private ManaModel _mana;
         
         [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private Camera _camera;
@@ -47,6 +49,7 @@ namespace CursedCity.Spelling
                 return;
             }
             transform.position = Input.mousePosition;
+            UpdateSpellCost();
             if (Input.GetMouseButtonDown(MOUSE_BUTTON_LEFT))
             {
                 ApplySpellWithCheck();
@@ -62,6 +65,23 @@ namespace CursedCity.Spelling
 
         #region Methods
 
+        private void UpdateSpellCost()
+        {
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            var hits = Physics.RaycastAll(ray);
+
+            if (WeHit<IRuinUpgradeController>(hits, out var ruin))
+            {
+                _cost.text = (_spell.Cost * ruin.CostMultiplier).ToString();
+                _cost.color = Color.Lerp(Color.yellow, Color.red, 0.5f);
+            }
+            else
+            {
+                _cost.text = _spell.Cost.ToString();
+                _cost.color = Color.yellow;
+            }
+        }
+        
         public void Activate(Spell spell)
         {
             _spell = spell;
@@ -91,19 +111,20 @@ namespace CursedCity.Spelling
                 return;
             }
             
-            if (WeHit<IRuin>(hits, out var ruin))
+            if (WeHit<IRuinUpgradeController>(hits, out var ruin))
             {
-                ruin.Upgrade(_spell.Ruin);
+                ruin.Upgrade(_spell);
+                _mana.Remove(_spell.Cost * ruin.CostMultiplier);
             }
             else
             {
                 if (_groundPlane.Raycast(ray, out var enter))
                 {
                     SpawnEntity(ray, enter);
+                    _mana.Remove(_spell.Cost);
                 }
             }
-
-            _mana.Remove(_spell.Cost);
+            
             Deactivate();
         }
 

@@ -2,13 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CursedCity.Spelling
+namespace CursedCity.ManaPanel
 {
-    public class ManaPanel : MonoBehaviour
+    public class ManaPanelController : MonoBehaviour
     {
         #region Fields
 
-        [SerializeField] private Mana _mana;
+        [SerializeField] private ManaModel _mana;
         [SerializeField] private Slider _manaBar;
         [SerializeField] private TMP_Text _manaValue;
         

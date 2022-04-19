@@ -1,10 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CursedCity.Spelling
+namespace CursedCity.ManaPanel
 {
-    [CreateAssetMenu(fileName = nameof(Mana), menuName = "Spelling/" + nameof(Mana), order = 0)]
-    public class Mana : ScriptableObject
+    [CreateAssetMenu(fileName = nameof(ManaModel), menuName = "Mana/" + nameof(ManaModel), order = 0)]
+    public class ManaModel : ScriptableObject
     {
         #region Fields
         
