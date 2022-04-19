@@ -472,6 +472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 5576136707269798086}
+  _type: {fileID: 0}
   _title: {fileID: 5576136706987395798}
   _cost: {fileID: 5576136708678848902}
   _button: {fileID: 5576136707508843138}
