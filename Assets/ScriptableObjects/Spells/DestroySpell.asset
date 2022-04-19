@@ -10,14 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11f52a2b9cd54bf1a4cb5465e7f61129, type: 3}
-  m_Name: WealthSpell
+  m_Name: DestroySpell
   m_EditorClassIdentifier: 
-  _title: Gold
-  _type: 2
+  _title: Dispel
+  _type: 1
   _icon: {fileID: 21300000, guid: 2cb2eca8fe0fbe34191873ce1af139e1, type: 3}
-  _cost: 50
-  _ruins:
-  - {fileID: 3765412760255499815, guid: 91aa38bd1d01f6b4b965275ddd8eb5af, type: 3}
-  - {fileID: 6483908275317076983, guid: 503894498d4856b40afe375386b36e6d, type: 3}
-  - {fileID: 312645706484350011, guid: 4bc82a093d5f1a245b18eaa2a28c8763, type: 3}
-  _entity: {fileID: 5002824711628808356, guid: 100ca708e3d0ed640bf68f8d769f9a32, type: 3}
+  _cost: 20
+  _ruins: []
+  _entity: {fileID: 0}

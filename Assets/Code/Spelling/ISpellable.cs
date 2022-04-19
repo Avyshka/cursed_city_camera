@@ -1,19 +1,18 @@
-﻿using CursedCity.Spelling;
-
-namespace CursedCity.Ruins
+﻿namespace CursedCity.Spelling
 {
-    public interface IRuinUpgradeController
+    public interface ISpellable
     {
         #region Properties
 
+        bool Generated { get; }
         float CostMultiplier { get; }
 
         #endregion
 
-
+        
         #region Methods
 
-        void Upgrade(Spell spell);
+        void Dispel();
 
         #endregion
     }

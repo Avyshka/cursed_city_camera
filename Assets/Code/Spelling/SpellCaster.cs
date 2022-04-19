@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using CursedCity.ManaPanel;
 using CursedCity.Ruins;
+using CursedCity.Spelling.Enums;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,9 +21,9 @@ namespace CursedCity.Spelling
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _cost;
         [SerializeField] private GameObject _body;
-        
+
         [SerializeField] private ManaModel _mana;
-        
+
         [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private Camera _camera;
         [SerializeField] private Transform _groundTransform;
@@ -48,6 +49,7 @@ namespace CursedCity.Spelling
             {
                 return;
             }
+
             transform.position = Input.mousePosition;
             UpdateSpellCost();
             if (Input.GetMouseButtonDown(MOUSE_BUTTON_LEFT))
@@ -81,7 +83,7 @@ namespace CursedCity.Spelling
                 _cost.color = Color.yellow;
             }
         }
-        
+
         public void Activate(Spell spell)
         {
             _spell = spell;
@@ -110,8 +112,16 @@ namespace CursedCity.Spelling
             {
                 return;
             }
-            
-            if (WeHit<IRuinUpgradeController>(hits, out var ruin))
+
+            if (_spell.Type == SpellType.Destroy)
+            {
+                if (WeHit<ISpellable>(hits, out var spellableObject) && spellableObject.Generated)
+                {
+                    spellableObject.Dispel();
+                    _mana.Remove(_spell.Cost * spellableObject.CostMultiplier);
+                }
+            }
+            else if (WeHit<IRuinUpgradeController>(hits, out var ruin))
             {
                 ruin.Upgrade(_spell);
                 _mana.Remove(_spell.Cost * ruin.CostMultiplier);
@@ -124,14 +134,14 @@ namespace CursedCity.Spelling
                     _mana.Remove(_spell.Cost);
                 }
             }
-            
+
             Deactivate();
         }
 
         private void SpawnEntity(Ray ray, float enter)
         {
             var spellEntity = Instantiate(
-                _spell.Entity, 
+                _spell.Entity,
                 ray.origin + ray.direction * enter + Vector3.up * SPAWN_HEIGHT,
                 Random.rotation
             );

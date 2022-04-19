@@ -2,9 +2,10 @@
 {
     public enum SpellType
     {
-        Wealth = 0,
-        Knowledge = 1,
-        LegendaryWeapon = 2,
-        Darkness = 3,
+        Destroy = 1,
+        Wealth = 2,
+        Knowledge = 3,
+        LegendaryWeapon = 4,
+        Darkness = 5,
     }
 }
